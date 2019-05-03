@@ -1,26 +1,47 @@
 ---
 driver:
-  name: vagrant
+  name: ec2
+  aws_ssh_key_id: chefws # key pair name
+  region: us-west-2 # region code of aws
+  availability_zone: us-west-2b # availability_zone of us-west
+  subnet_id: subnet-2696ab5f # subnet-id noted from above steps
+  instance_type: t2.micro # as it is free instance type
+  security_group_ids: ["sg-01d5055a0f6bc8bb1"]
+
 
 provisioner:
   name: chef_zero
-  # You may wish to disable always updating cookbooks in CI or other testing environments.
-  # For example:
-  #   always_update_cookbooks: <%= !ENV['CI'] %>
   always_update_cookbooks: true
 
 verifier:
   name: inspec
 
+transport:
+  ssh_key: ./chefws.pem # relative path to pem file
+  connection_timeout: 10
+  connection_retries: 5
+  #username: ubuntu # username for ubuntu ami-id
+  #username: ec2-user # username for redhat ami-id
 platforms:
-  - name: ubuntu-16.04
-  - name: centos-7
-
+  - name: ubuntu-18.04
+    driver:
+      name: ec2
+      image_id: ami-005bdb005fb00e791 # image id of ubuntu
+      transport:
+        username: ubuntu
+  
+  - name: redhat-7.6
+    driver:
+      name: ec2
+      image_id: ami-036affea69a1101c9 # image id of redhat
+      transport:
+        username: ec2-user
 suites:
-  - name: default
-    run_list:
-      - recipe[apache_cookbook::default]
-    verifier:
-      inspec_tests:
+- name: default
+  run_list:
+    - recipe[apache_cookbook::apache]
+    - recipe[apache_cookbook::php]
+  verifier:
+    inspec_tests:
         - test/integration/default
     attributes:

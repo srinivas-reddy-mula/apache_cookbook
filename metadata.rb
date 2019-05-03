@@ -1,6 +1,6 @@
 name 'apache_cookbook'
-maintainer 'The Authors'
-maintainer_email 'you@example.com'
+maintainer 'srinivas'
+maintainer_email 'srinivasreddymula433@gmail.com.com'
 license 'All Rights Reserved'
 description 'Installs/Configures apache_cookbook'
 long_description 'Installs/Configures apache_cookbook'

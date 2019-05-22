@@ -7,3 +7,5 @@
 
 include_recipe 'apache_cookbook::apache'
 include_recipe 'apache_cookbook::php'
+include_recipe 'apache_cookbook::install-java'
+#include_recipe 'apache_cookbook::tomcat'

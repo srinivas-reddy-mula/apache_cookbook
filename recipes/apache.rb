@@ -1,3 +1,4 @@
+
 if node['platform_family'] == 'rhel'
   file '/home/ec2-user/second.txt' do
     content 'redhat hello'
@@ -25,6 +26,12 @@ end
 package package_name do
   action :install
 end
+
 service package_name do
   action :restart
 end
+
+
+
+
+

@@ -3,10 +3,11 @@ driver:
   name: ec2
   aws_ssh_key_id: chefws # key pair name
   region: us-west-2 # region code of aws
-  availability_zone: us-west-2b # availability_zone of us-west
-  subnet_id: subnet-2696ab5f # subnet-id noted from above steps
+  #availability_zone: us-west-2b # availability_zone of us-west
+  #subnet_id: subnet-2696ab5f # subnet-id noted from above steps
   instance_type: t2.micro # as it is free instance type
-  security_group_ids: ["sg-01d5055a0f6bc8bb1"]
+  #security_group_ids: ["sg-0d04d20ee577be95a"]
+  image_id: ami-08692d171e3cf02d6
 
 
 provisioner:
@@ -20,27 +21,23 @@ transport:
   ssh_key: ./chefws.pem # relative path to pem file
   connection_timeout: 10
   connection_retries: 5
-  #username: ubuntu # username for ubuntu ami-id
+  username: ubuntu # username for ubuntu ami-id
   #username: ec2-user # username for redhat ami-id
 platforms:
-  - name: ubuntu-18.04
-    driver:
-      name: ec2
-      image_id: ami-005bdb005fb00e791 # image id of ubuntu
-      transport:
-        username: ubuntu
+  - name: ubuntu-16.04
+      
   
-  - name: redhat-7.6
-    driver:
-      name: ec2
-      image_id: ami-036affea69a1101c9 # image id of redhat
-      transport:
-        username: ec2-user
+#  - name: redhat-7.6
+#    driver:
+#      name: ec2
+#      image_id: ami-036affea69a1101c9 # image id of redhat
+#      transport:
+#        username: ec2-user
 suites:
 - name: default
   run_list:
-    - recipe[apache_cookbook::apache]
-    - recipe[apache_cookbook::php]
+    - recipe[apache_cookbook::default]
+#    - recipe[apache_cookbook::php]
   verifier:
     inspec_tests:
         - test/integration/default

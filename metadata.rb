@@ -4,7 +4,7 @@ maintainer_email 'srinivasreddymula433@gmail.com.com'
 license 'All Rights Reserved'
 description 'Installs/Configures apache_cookbook'
 long_description 'Installs/Configures apache_cookbook'
-version '2.0.2'
+version '2.0.6'
 chef_version '>= 13.0'
 
 # The `issues_url` points to the location where issues for this cookbook are

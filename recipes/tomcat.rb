@@ -9,6 +9,17 @@ end
 package 'openjdk-8-jdk' do
   action :install
 end
+ENV['JAVA_HOME'] = '/usr/lib/jvm/java-8-openjdk-amd64'
+bash 'name' do
+  code <<-EOH
+  export JAVA_HOME
+  echo $JAVA_HOME
+  EOH
+  action :run
+end
+
+
+
 group 'tomcat' do
   action :create
 end
@@ -20,8 +31,8 @@ user 'tomcat' do
   password 'tomcat'
   action :create
 end
-remote_file '/tmp/apache-tomcat-8.5.40.tar.gz' do
-  source 'https://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.40/bin/apache-tomcat-8.5.40.tar.gz'
+remote_file '/tmp/apache-tomcat-8.5.43.tar.gz' do
+  source 'http://apachemirror.wuchna.com/tomcat/tomcat-8/v8.5.43/bin/apache-tomcat-8.5.43.tar.gz'
   owner 'tomcat'
   group 'tomcat'
   mode '0755'
@@ -34,7 +45,7 @@ directory '/opt/tomcat' do
   action :create
 end
 
-execute 'extract_apache_tomcat_8.5.40.tar.gz' do
+execute 'extract_apache-tomcat-8.5.43.tar.gz' do
   command 'sudo tar xzvf /tmp/apache-tomcat-8*tar.gz -C /opt/tomcat --strip-components=1'
   cwd '/opt/tomcat/'
   not_if { File.exists?("/home/ubuntu/tat.txt") }
@@ -83,10 +94,11 @@ end
 bash 'copy root.war to webapps' do
   cwd '/opt/'
   code <<-EOH
-
   cp /var/lib/jenkins/workspace/assessment/target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar /opt/tomcat/webapps/
   wget https://s3.amazonaws.com/shopizer2/ROOT.war
+  cp /var/lib/jenkins/workspace/assessment/target/ROOT.jar /opt/tomcat/webapps/
   wget https://github.com/AKSarav/SampleWebApp/raw/master/dist/SampleWebApp.war
+  cp /var/lib/jenkins/workspace/assessment/target/SampleWebApp.jar /opt/tomcat/webapps/
   EOH
   action :run
 end

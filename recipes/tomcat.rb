@@ -19,7 +19,7 @@ bash 'name' do
 end
 
 
-
+t
 group 'tomcat' do
   action :create
 end
@@ -94,23 +94,15 @@ end
 bash 'copy root.war to webapps' do
   cwd '/opt/'
   code <<-EOH
-  cp /var/lib/jenkins/workspace/assessment/target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar /opt/tomcat/webapps/
-  wget https://s3.amazonaws.com/shopizer2/ROOT.war
-  cp /var/lib/jenkins/workspace/assessment/target/ROOT.jar /opt/tomcat/webapps/
-  wget https://github.com/AKSarav/SampleWebApp/raw/master/dist/SampleWebApp.war
-  cp /var/lib/jenkins/workspace/assessment/target/SampleWebApp.jar /opt/tomcat/webapps/
+  wget https://github.com/srinivas-reddy-mula/warfiles/raw/master/SampleWebApp.war
+  cp SampleWebApp.jar /opt/tomcat/webapps/
   EOH
   action :run
 end
 bash 'deploy' do
   code <<-EOH
-  sudo mv /opt/ROOT.war /opt/tomcat/webapps/
-  sudo mv /opt/SampleWebApp.war /opt/tomcat/webapps/
-  sudo mv /opt/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar /opt/tomcat/webapps/
-  sudo chmod 755 /opt/tomcat/webapps/ROOT.war
   sudo chmod 755 /opt/tomcat/webapps/SampleWebApp.war
-  sudo chmod 755 /opt/tomcat/webapps/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar
-  EOH
+    EOH
   action :run
 end
 
